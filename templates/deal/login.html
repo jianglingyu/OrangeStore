@@ -9,49 +9,26 @@
     <meta name="author" content="">
     
     <title>Signin Template for Bootstrap</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
-
-      <script>
-        $(document).ready(function(){
-          $("#captcha_img").click(function(){
-            $.get("/web/getCodePiture/",function(ret){
-            })
-          });
-        });
-    </script>
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css"rel="stylesheet">
+    <script src="{% static 'js/jquery-2.0.3.min.js' %}"></script>
 
   </head>
 
   <body>
-
+<form class="form" method="post" action="/deal/login/">
+   {% csrf_token %}
     <div class="container">
       <div class="col-lg-4 col-lg-offset-4 col-sm-6 col-sm-offset-3 col-xs-8 col-xs-offset-2" id="logindev">
-      <form class="form">
+      
+
         <h2>Please sign in</h2>
         <label for="inputEmail" class="field">Email address</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+        <input type="text" name  = "username" id="inputusername" class="form-control" >
         <label for="inputPassword" class="field">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">   
-       
-        <label for="j_captcha" class="t">Identifying code</label>
-        
-        <div class="form-group">         
-           <input id="j_captcha" name="j_captcha" type="text" class="form-self" placeholder="Identifying code">
-            <img id="captcha_img" alt="点击更换" title="点击更换" src="{% static 'images/check.png' %}" class="mm" >
-        </div>
+        <input type="password" name = "password" id="inputPassword" class="form-control" placeholder="Password" required="">   
 
-
-        </form>
         
-        
-        <!--div class="form-group">
-             <input id="j_captcha" name="j_captcha" type="text" class="input-small form-control" placeholder="验证码" required="">
-             <img id="captcha_img" alt="点击更换" title="点击更换" src="{% static 'images/check.png' %}" class="img-responsive" width="55" height="20" style="margin-bottom: -3px">
-        </div-->
-
         <div class="checkbox">
           <label>
             <input type="checkbox" value="remember-me"> Remember me
@@ -59,11 +36,10 @@
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         <div>没有账号,请<a href="/deal/register">注册</a></div>
-      </form>
-  </div>
-    </div> <!-- /container -->
+     
+    </div>
+  </div> <!-- /container -->
 
-
-  
-
-</body></html>
+         </form>
+</body>
+</html>

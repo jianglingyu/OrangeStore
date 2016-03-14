@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<title>orange</title>
+</head>
+<body>
+	{% csrf_token %}
+	<div id="nav" align="center">
+		{% for fields in order %}
+	            	<p>订单编号:{{ fields.order_number }}</p><br />
+	            	<p>收货人姓名:{{ fields.recive_name }}</p><br />
+		<p>收货人地址:{{ fields.recive_addr }}</p><br />
+		<p>收货人电话:{{ fields.recive_phone }}</p><br />
+		<p>水果种类:{{ fields.orange_kind }}</p><br />
+		<p>购买重量:{{ fields.orange_weight }}</p><br />
+		
+            	{% endfor %}	
+	</div>
+</body>
+<html>
