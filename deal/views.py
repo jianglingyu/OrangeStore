@@ -13,14 +13,15 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.http import HttpResponse
 
-from deal.models import OrangeKind, Expresskind, Order
+from deal.models import OrangeKind, Expresskind, Order, user
 
 from django.http import JsonResponse
 import json
 
 from django.contrib.auth.decorators import login_required
 from deal.forms import UserForm
-
+import time
+from datetime import date
 
 fontPath = "./static/fonts/"
 
@@ -112,22 +113,41 @@ def select_OrderForm(request, ordernumber):
 				'express_name':t.express_name, 'express_num':t.express_num,
 				'send_date':t.send_date, 'note':t.note,
 				'is_recieve':t.is_recieve,'is_payed':t.is_payed,
-				'recieve_date':t.recieve_date})
+				'recieve_date':t.recieve_date, 'seller_user':t.seller_user})
 		return render(request, 'deal/select.html', {'form':form, 'order_num':t.id})
 
-
+@login_required
 def update_OrderForm(request, id):
 	blog = get_object_or_404(Order, pk=int(id))
 	if request.method == 'POST':
 		form = OrderForm(request.POST, instance=blog)
 		if form.is_valid():
 			form.save()
-			return index(request)
+			top_list = Order.objects.order_by('-order_date')
+			context_dict = {'orders': top_list}
+			return render(request,'deal/myhome.html',context_dict)
 		else:
 			print form.errors
 	else:
 		return index(request)	
 
+@login_required
+def add(request):
+	user = request.user
+	if request.method == 'POST':
+		form = OrderForm(request.POST)
+		if form.is_valid():
+			print form
+			form.save()
+			top_list = Order.objects.order_by('-order_date')
+			context_dict = {'orders': top_list}
+			return render(request,'deal/myhome.html',context_dict)
+		else:
+			print form.errors
+	else:
+		var = datetime.now().strftime("%Y%m%d%H%I%S");
+		form = OrderForm(initial={'order_num':var,'seller_user':user.username})
+		return render(request, 'deal/add.html', {'form':form})
 
 @login_required
 def homepage(request):
